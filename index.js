@@ -10,6 +10,7 @@ const ZAPI_INSTANCE_ID = process.env.ZAPI_INSTANCE_ID;
 const ZAPI_TOKEN = process.env.ZAPI_TOKEN;
 const WHATSAPP_FIELD = "UF_CRM_1729359889";
 
+
 const MESSAGE = `Здравствуйте! 👋
 
 Ранее вы обращались в ITnasr.kz по вопросам автоматизации бизнеса — спасибо за интерес! 🙏
@@ -85,3 +86,5 @@ app.get("/send-wa", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`📡 Сервер запущен на порту ${PORT}`);
 });
+
+console.log("📞 Отправляем на номер:", phone);
