@@ -65,10 +65,19 @@ app.get("/send-wa", async (req, res) => {
     const phone = match[1];
 
     // Отправка в Z-API
-    const zapiRes = await axios.post(ZAPI_ENDPOINT, {
-      phone: phone,
-      message: MESSAGE,
-    });
+    await axios.post(
+  "https://api.z-api.io/instances/send-text",
+  {
+    phone: phone,
+    message: MESSAGE,
+  },
+  {
+    headers: {
+      "Client-Token": "42A714AC79CD706E31DD8286",
+      "Instance-ID": "3E461FD8C9B9502790108A98E8AD8DA9",
+    },
+  }
+);
 
     if (zapiRes.data?.sent) {
       res.send(`✅ Сообщение отправлено на WhatsApp: ${phone}`);
