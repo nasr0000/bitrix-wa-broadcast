@@ -33,7 +33,8 @@ const MESSAGE = `Здравствуйте! 👋
 📱 +7 708 750 91-03  
 🌐 www.itnasr.kz`;
 
-const ZAPI_ENDPOINT = `https://api.z-api.io/instances/${ZAPI_INSTANCE_ID}/token/${ZAPI_TOKEN}/send-text`;
+const ZAPI_ENDPOINT = `https://api.z-api.io/instances/3E461FD8C9B9502790108A98E8AD8DA9/token/42A714AC79CD706E31DD8286/send-text`;
+
 
 // Проверка сервера
 app.get("/", (req, res) => {
