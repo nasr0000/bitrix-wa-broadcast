@@ -62,12 +62,20 @@ app.get("/send-wa", async (req, res) => {
     console.log("📞 Отправляем на номер:", phone);
 
     const zapiRes = await axios.post(
-  `https://api.z-api.io/instances/${ZAPI_INSTANCE_ID}/token/${ZAPI_TOKEN}/send-text`,
+  "https://api.z-api.io/instances/send-text",
   {
     phone: phone,
     message: MESSAGE,
+  },
+  {
+    headers: {
+      "Client-Token": ZAPI_TOKEN,
+      "Instance-ID": ZAPI_INSTANCE_ID,
+    },
   }
 );
+
+
 
 
     if (zapiRes.data?.sent) {
