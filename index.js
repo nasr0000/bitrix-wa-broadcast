@@ -10,7 +10,6 @@ const ZAPI_INSTANCE_ID = process.env.ZAPI_INSTANCE_ID;
 const ZAPI_TOKEN = process.env.ZAPI_TOKEN;
 const WHATSAPP_FIELD = "UF_CRM_1729359889";
 
-// Текст рассылки
 const MESSAGE = `Здравствуйте! 👋
 
 Ранее вы обращались в ITnasr.kz по вопросам автоматизации бизнеса — спасибо за интерес! 🙏
@@ -32,8 +31,6 @@ const MESSAGE = `Здравствуйте! 👋
 команда ITnasr.kz  
 📱 +7 708 750 91-03  
 🌐 www.itnasr.kz`;
-
-const ZAPI_ENDPOINT = `https://api.z-api.io/instances/${ZAPI_INSTANCE_ID}/token/${ZAPI_TOKEN}/send-text`;
 
 app.get("/", (req, res) => {
   res.send("✅ Сервер работает");
@@ -59,11 +56,20 @@ app.get("/send-wa", async (req, res) => {
 
     const phone = match[1];
 
-    // ✅ Отправка запроса в Z-API (без headers!)
-    const zapiRes = await axios.post(ZAPI_ENDPOINT, {
-      phone: phone,
-      message: MESSAGE,
-    });
+    // ✅ Новый универсальный endpoint и заголовки авторизации
+    const zapiRes = await axios.post(
+      "https://api.z-api.io/instances/send-text",
+      {
+        phone: phone,
+        message: MESSAGE,
+      },
+      {
+        headers: {
+          "Client-Token": ZAPI_TOKEN,
+          "Instance-ID": ZAPI_INSTANCE_ID,
+        },
+      }
+    );
 
     if (zapiRes.data?.sent) {
       res.send(`✅ Сообщение отправлено на WhatsApp: ${phone}`);
