@@ -45,6 +45,9 @@ app.get("/send-wa", async (req, res) => {
   if (!dealId) return res.status(400).send("❌ Не передан deal_id");
 
   try {
+    console.log("TOKEN:", ZAPI_TOKEN);
+    console.log("INSTANCE:", ZAPI_INSTANCE_ID);
+
     const dealRes = await axios.post(`${BITRIX_WEBHOOK}crm.deal.get`, { id: dealId });
     const deal = dealRes.data?.result;
     if (!deal) return res.status(404).send("❌ Сделка не найдена");
@@ -58,10 +61,14 @@ app.get("/send-wa", async (req, res) => {
     const phone = match[1];
     console.log("📞 Отправляем на номер:", phone);
 
-    const zapiRes = await axios.post(ZAPI_ENDPOINT, {
-      phone: phone,
-      message: MESSAGE,
-    });
+    const zapiRes = await axios.post(
+  `https://api.z-api.io/instances/${ZAPI_INSTANCE_ID}/token/${ZAPI_TOKEN}/send-text`,
+  {
+    phone: phone,
+    message: MESSAGE,
+  }
+);
+
 
     if (zapiRes.data?.sent) {
       res.send(`✅ Сообщение отправлено на WhatsApp: ${phone}`);
